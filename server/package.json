@@ -1,0 +1,38 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Youtube Clone",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon --experimental-modules --es-module-specifier-resolution=node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/piyush-gupta123/Youtube-Clone.git"
+  },
+  "keywords": [
+    "test",
+    "start"
+  ],
+  "author": "Piyush Gupta",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/piyush-gupta123/Youtube-Clone/issues"
+  },
+  "homepage": "https://github.com/piyush-gupta123/Youtube-Clone#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^6.9.2",
+    "nodemon": "^2.0.20",
+    "passport": "^0.6.0",
+    "passport-oauth2": "^1.6.1"
+  }
+}
