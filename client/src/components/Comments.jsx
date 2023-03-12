@@ -25,21 +25,30 @@ const Input = styled.input`
   margin-left: 10px;
 `;
 
-const Comments = () => {
+const Comments = ({videoId}) => {
+
+  const { currentUser } = useSelector((state) => state.user);
+
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const res = await axios.get(`/comments/${videoId}`);
+        setComments(res.data);
+      } catch (err) {}
+    };
+    fetchComments();
+  }, [videoId]);
   return (
     <Container>
       <NewComment>
-        <Avatar
-          src="https://yt3.googleusercontent.com/ytc/AL5GRJUOhe9c1D67-yLQEkT2EqyRclI5V3EOTANZQXmt=s900-c-k-c0x00ffffff-no-rj"
-          alt="Image.png"
-        />
-        <Input placeholder="Add a comment..."></Input>
+        <Avatar src={currentUser.img} />
+        <Input placeholder="Add a comment..." />
       </NewComment>
-      <Comment/>
-      <Comment/>
-      <Comment/>
-      <Comment/>
-      <Comment/>
+      {comments.map(comment=>(
+        <Comment key={comment._id} comment={comment}/>
+      ))}
     </Container>
   );
 };

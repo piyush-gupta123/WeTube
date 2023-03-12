@@ -102,13 +102,16 @@ const Menu = ({ darkMode, setDarkMode }) => {
             <HomeIcon /> Home
           </Items>
         </Link>
-
+        <Link to="/trend" style={{ textDecoration: "none", color: "inherit" }}>
         <Items>
           <ExploreIcon /> Explore
         </Items>
+        </Link>
+        <Link to="/subscriptions" style={{ textDecoration: "none", color: "inherit" }}>
         <Items>
           <SubscriptionsIcon /> Subscriptions
         </Items>
+        </Link>
         <Hr />
         <Items>
           <VideoLibraryIcon /> Library

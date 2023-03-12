@@ -6,6 +6,7 @@ import userRouter from "./Routes/user-routes.js";
 import videoRouter from "./Routes/videos-routes.js";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import cors from 'cors';
 mongoose.set("strictQuery", true);
 
 const app = express();
@@ -17,6 +18,7 @@ mongoose
   .catch((err) => console.log(err));
 
 app.use(express.json());
+app.use(cors());
 app.use(cookieParser());
 app.use("/user", userRouter);
 app.use("/videos", videoRouter);

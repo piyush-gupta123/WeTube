@@ -1,6 +1,8 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import {format} from "timeago.js";
 
 const Container = styled.div`
   width: ${(props) => props.type !== "sm" && "360px"};
@@ -54,25 +56,37 @@ const Info = styled.div`
   margin-bottom: 10%;
 `;
 
-const Card = ({ type }) => {
+const Card = ({ type, video }) => {
+  const [channel, setChannel] = useState({});
+
+  useEffect(() => {
+    const fetchChannel = async () => {
+      const res = await axios
+        .get(`http://localhost:5000/user/get/${video.userID}`)
+        .catch((err) => console.log(err));
+      setChannel(res.data);
+    };
+
+    fetchChannel();
+  }, [video.userID]);
   return (
-    <Link to="/video/test" style={{ textDecoration: "none" }}>
+    <Link to= {`/video/${video._id}`} style={{ textDecoration: "none" }}>
       <Container type={type}>
         <Image
           type={type}
-          src="https://i.ytimg.com/vi/k3Vfj-e1Ma4/maxresdefault.jpg"
+          src={video.img}
           alt="Video"
         />
         <Details type={type}>
           <ChannelImage
             type={type}
-            src="https://yt3.googleusercontent.com/ytc/AL5GRJUOhe9c1D67-yLQEkT2EqyRclI5V3EOTANZQXmt=s900-c-k-c0x00ffffff-no-rj"
+            src={channel.img}
             alt="Image"
           />
           <Texts>
-            <Title>Test Video</Title>
-            <ChannelName>Obsessed Coders</ChannelName>
-            <Info>7M views . 2 months ago</Info>
+            <Title>{video.title}</Title>
+            <ChannelName>{channel.name}</ChannelName>
+            <Info>{video.views} views . {format(video.createdAt)}</Info>
           </Texts>
         </Details>
       </Container>
