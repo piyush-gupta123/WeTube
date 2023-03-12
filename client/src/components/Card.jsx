@@ -1,22 +1,28 @@
-   import React from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-    import styled from "styled-components";
+import styled from "styled-components";
 
 const Container = styled.div`
-  width: 360px;
-  margi    n-bottom: 5%;
+  width: ${(props) => props.type !== "sm" && "360px"};
+  margin-bottom: ${(props) => (props.type === "sm" ? "10px" : "45px")};
   cursor: pointer;
+  display: ${(props) => props.type === "sm" && "flex"};
 `;
 
 const Image = styled.img`
-width: 100%;
-height: 202px;
-background-color: #999;
+  width: 100%;
+  height: ${(props) => (props.type === "sm" ? "120px" : "202px")};
+  background-color: #999;
+  gap: 10px;
+  display: flex;
+  flex: 1;
 `;
 
 const Details = styled.div`
   display: flex;
-  margin-top: 16px;
+  margin-top: ${(props) => props.type !== "sm" && "16px"};
+  gap: 12px;
+  flex: 1;
 `;
 
 const ChannelImage = styled.img`
@@ -24,6 +30,7 @@ const ChannelImage = styled.img`
   height: 36px;
   border-radius: 50%;
   background-color: #999;
+  display: ${(props) => props.type === "sm" && "none"};
 `;
 
 const Texts = styled.div``;
@@ -47,16 +54,18 @@ const Info = styled.div`
   margin-bottom: 10%;
 `;
 
-const Card = () => {
+const Card = ({ type }) => {
   return (
-    <Link to="/video/test" style={{textDecoration: "none"}}>
-      <Container>
+    <Link to="/video/test" style={{ textDecoration: "none" }}>
+      <Container type={type}>
         <Image
+          type={type}
           src="https://i.ytimg.com/vi/k3Vfj-e1Ma4/maxresdefault.jpg"
           alt="Video"
         />
-        <Details>
+        <Details type={type}>
           <ChannelImage
+            type={type}
             src="https://yt3.googleusercontent.com/ytc/AL5GRJUOhe9c1D67-yLQEkT2EqyRclI5V3EOTANZQXmt=s900-c-k-c0x00ffffff-no-rj"
             alt="Image"
           />

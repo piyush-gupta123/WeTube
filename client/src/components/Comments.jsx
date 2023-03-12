@@ -22,6 +22,7 @@ const Input = styled.input`
   outline: none;
   padding: 5px;
   width: 100%;
+  margin-left: 10px;
 `;
 
 const Comments = () => {

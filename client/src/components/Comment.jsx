@@ -20,14 +20,29 @@ const Details = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  align-items: center;
+  // align-items: center;
+  margin-left: 10px;
 `;
 
-const Title = styled.title`
+const Name = styled.span`
+  font-weight: 500;
+  font-size: 14px;
+  color: ${({theme})=> theme.text};
+`;
+
+const Date = styled.span`
+  font-size: 12px;
   font-weight: 400;
-`;
+  color: ${({theme})=> theme.textSoft};
+  margin-left: 6px;
+`
 
-const Description = styled.p``;
+
+const Description = styled.p`
+  font-size: 14px;
+  color: ${({theme})=> theme.textSoft};
+  
+`;
 
 const Comment = () => {
   return (
@@ -38,7 +53,7 @@ const Comment = () => {
           alt="Image.png"
         />
         <Details>
-          <Title></Title>
+          <Name>John Doe. <Date>3 days ago</Date></Name>
           <Description>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. A quidem
             quia porro saepe molestias corporis.
