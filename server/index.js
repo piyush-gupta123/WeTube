@@ -6,7 +6,7 @@ import userRouter from "./Routes/user-routes.js";
 import videoRouter from "./Routes/videos-routes.js";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-import cors from 'cors';
+import cors from "cors";
 mongoose.set("strictQuery", true);
 
 const app = express();
@@ -18,13 +18,18 @@ mongoose
   .catch((err) => console.log(err));
 
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 app.use(cookieParser());
+app.use(express.json());
 app.use("/user", userRouter);
 app.use("/videos", videoRouter);
 app.use("/comments", commentRouter);
 app.use("/auth", authRouter);
-
 
 app.use((err, req, res, next) => {
   const status = err.status || 500;

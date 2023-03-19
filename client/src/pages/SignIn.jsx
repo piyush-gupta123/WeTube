@@ -71,24 +71,33 @@ const SignIn = () => {
     dispatch(loginStart());
     try {
       const res = await axios
-        .post("http://localhost:5000/auth/login", { name, password })
+        .post(
+          "http://localhost:5000/auth/login",
+          { name: name, password: password },
+          { withCredentials: true }
+        )
         .catch((err) => console.log(err));
-        dispatch(loginSuccess())
-      // console.log(res.data);
-      // fetch("http://localhost:5000/auth/login/", {
-      //   method: "POST",
-      //   body: JSON.stringify({
-      //     name: name,
-      //     password: password,
-      //   }),
-      //   headers: {
-      //     "content-type": "application/json; charset=UTF-8",
-      //   },
-      // }).then((res)=>res.json())
-      // .then((res)=>console.log(res))
+      console.log(res);
+      dispatch(loginSuccess());
     } catch (err) {
       console.log(err.message);
-      dispatch(loginFailure())
+      dispatch(loginFailure());
+    }
+  };
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios
+        .post("http://localhost:5000/auth/signup", {
+          name,
+          email,
+          password,
+        })
+        .catch((err) => console.log(err));
+      console.log(res);
+    } catch (err) {
+      console.log(err);
     }
   };
   return (
@@ -123,7 +132,7 @@ const SignIn = () => {
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button>Sign Up</Button>
+        <Button onClick={handleSignUp}>Sign Up</Button>
       </Wrapper>
     </Container>
   );
