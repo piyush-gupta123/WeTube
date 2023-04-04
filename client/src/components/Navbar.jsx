@@ -24,7 +24,7 @@ const Wrapper = styled.div`
 const Search = styled.div`
   width: 40%;
   padding: 5px;
-  position: absolute;
+  position: absolute; 
   left: 0;
   right: 0;
   margin: auto;
