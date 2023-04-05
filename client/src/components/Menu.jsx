@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import logo from "../img/logo.png";
+import logo from "../img/logo.jpg";
 import HomeIcon from "@mui/icons-material/Home";
 import ExploreIcon from "@mui/icons-material/Explore";
 import SubscriptionsIcon from "@mui/icons-material/Subscriptions";
@@ -42,7 +42,8 @@ const Logo = styled.div`
 `;
 
 const Img = styled.img`
-  height: 22px;
+  height: 35px;
+  border-radius: 10px;
 `;
 
 const Items = styled.div`
@@ -103,14 +104,17 @@ const Menu = ({ darkMode, setDarkMode }) => {
           </Items>
         </Link>
         <Link to="/trend" style={{ textDecoration: "none", color: "inherit" }}>
-        <Items>
-          <ExploreIcon /> Explore
-        </Items>
+          <Items>
+            <ExploreIcon /> Explore
+          </Items>
         </Link>
-        <Link to="/subscriptions" style={{ textDecoration: "none", color: "inherit" }}>
-        <Items>
-          <SubscriptionsIcon /> Subscriptions
-        </Items>
+        <Link
+          to="/subscriptions"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <Items>
+            <SubscriptionsIcon /> Subscriptions
+          </Items>
         </Link>
         <Hr />
         <Items>
@@ -122,7 +126,10 @@ const Menu = ({ darkMode, setDarkMode }) => {
         <Hr />
         <Login>
           Sign in to like videos, comments and subscribe
-          <Link to="signIn" style={{ textDecoration: "none", color: "inherit" }}>
+          <Link
+            to="signIn"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
             <Button>
               <AccountCircleIcon /> SIGN IN
             </Button>

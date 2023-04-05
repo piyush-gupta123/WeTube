@@ -24,7 +24,7 @@ const Wrapper = styled.div`
 const Search = styled.div`
   width: 40%;
   padding: 5px;
-  position: absolute; 
+  position: absolute;
   left: 0;
   right: 0;
   margin: auto;
@@ -34,6 +34,21 @@ const Search = styled.div`
   border: 1px solid #ccc;
   border-radius: 20px;
 `;
+
+const User = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.text};
+`;
+
+const Avatar = styled.img`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #999;
+`
 
 const Input = styled.input`
   width: 100%;
@@ -58,6 +73,7 @@ const Button = styled.button`
 
 const Navbar = () => {
   const { currentUser } = useSelector((state) => state.user);
+  console.log(currentUser);
   return (
     <Container>
       <Wrapper>
@@ -66,7 +82,10 @@ const Navbar = () => {
           <SearchIcon />
         </Search>
         {currentUser ? (
-          "User"
+          <User>
+            <Avatar />
+            {currentUser.name}
+          </User>
         ) : (
           <Link
             to="signIn"
