@@ -17,7 +17,9 @@ import ReportIcon from "@mui/icons-material/Report";
 import HelpIcon from "@mui/icons-material/Help";
 import SettingsBrightnessIcon from "@mui/icons-material/SettingsBrightness";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../redux/userSlice"
 
 const Container = styled.div`
   flex: 1;
@@ -87,7 +89,31 @@ const Button = styled.button`
   gap: 5px;
 `;
 
+const Logout = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 10px 10px;
+  background-color: red;
+  color: white;
+  border: 1px solid red ;
+  border-radius: 3px;
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 10px;
+  cursor: pointer;
+  gap: 5px;
+`;
+
 const Menu = ({ darkMode, setDarkMode }) => {
+  const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const handleLogout = ()=>{
+    dispatch(logout());
+    navigate('/')
+  }
   return (
     <Container>
       <Wrapper>
@@ -124,18 +150,22 @@ const Menu = ({ darkMode, setDarkMode }) => {
           <HistoryIcon /> History
         </Items>
         <Hr />
-        <Login>
-          Sign in to like videos, comments and subscribe
-          <Link
-            to="signIn"
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <Button>
-              <AccountCircleIcon /> SIGN IN
-            </Button>
-          </Link>
-        </Login>
-        <Hr />
+        {!currentUser && (
+          <>
+            <Login>
+              Sign in to like videos, comments and subscribe
+              <Link
+                to="signIn"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <Button>
+                  <AccountCircleIcon /> SIGN IN
+                </Button>
+              </Link>
+            </Login>
+            <Hr />
+          </>
+        )}
         <Title>BEST OF WETUBE</Title>
         <Items>
           <LibraryMusicIcon /> Music
@@ -168,6 +198,7 @@ const Menu = ({ darkMode, setDarkMode }) => {
         <Items onClick={() => setDarkMode(!darkMode)}>
           <SettingsBrightnessIcon /> {darkMode ? "Light" : "Dark"} Mode
         </Items>
+        <Items>{currentUser && <Logout onClick={handleLogout}>Logout</Logout>}</Items>
       </Wrapper>
     </Container>
   );

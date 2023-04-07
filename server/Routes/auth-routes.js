@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { login, signup } from "../Controllers/auth-controller.js";
+import { googleAuth, login, signup } from "../Controllers/auth-controller.js";
 
 const authRouter = Router();
 
@@ -10,6 +10,6 @@ authRouter.post('/signup',signup);
 authRouter.post('/login',login);
 
 //Login using google account
-// authRouter.post('/google',)
+authRouter.post('/google',googleAuth);
 
 export default authRouter;

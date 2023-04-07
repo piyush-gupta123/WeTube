@@ -1,4 +1,4 @@
-import user from "../Models/User";
+// import user from "../Models/User";
 import bcrypt from "bcryptjs";
 import User from "../Models/User";
 import jwt from "jsonwebtoken";
@@ -13,7 +13,7 @@ export const signup = async (req, res, next) => {
     }
     const salt = bcrypt.genSaltSync(12);
     const hashedPassword = bcrypt.hashSync(password, salt);
-    const newUser = new user({
+    const newUser = new User({
       name: name,
       email: email,
       password: hashedPassword,
@@ -58,8 +58,6 @@ export const login = async (req, res, next) => {
     res
       .cookie("access_token", token, {
         httpOnly: true,
-        maxAge: 900000,
-        sameSite: "none",
       })
       .json(others);
   } catch (err) {
@@ -68,3 +66,30 @@ export const login = async (req, res, next) => {
 };
 
 //Google Authentication
+
+export const googleAuth = async(req,res,next)=>{
+  try{
+    const user = await User.findOne({email: req.body.email})
+
+    if(user){
+      const token = jwt.sign({id: user._id}, process.env.SECRET_KEY)
+      res.cookie("access_token",token,{
+        httpOnly: true
+      }).json(user._doc)
+    }
+    else{
+      const newUser = new User({
+        ...req.body,
+        fromGoogle: true
+      })
+      const savedUser = await newUser.save()
+      const token = jwt.sign({id: savedUser._id}, process.env.SECRET_KEY)
+      res.cookie("access_token",token,{
+        httpOnly: true
+      }).json(savedUser._doc)
+    }
+  }
+  catch(err){
+    next(err);
+  }
+}

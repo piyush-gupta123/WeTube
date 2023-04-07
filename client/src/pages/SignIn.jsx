@@ -5,6 +5,8 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginFailure, loginStart, loginSuccess } from "../redux/userSlice";
+import { auth, provider } from "../firebase";
+import { signInWithPopup } from "firebase/auth";
 
 const Container = styled.div`
   display: flex;
@@ -79,8 +81,7 @@ const SignIn = () => {
           { withCredentials: true }
         )
         .catch((err) => console.log(err));
-      console.log(res);
-      dispatch(loginSuccess());
+      dispatch(loginSuccess(res.data));
       navigate("/");
     } catch (err) {
       console.log(err.message);
@@ -104,9 +105,30 @@ const SignIn = () => {
       console.log(res);
     } catch (err) {
       console.log(err);
-      dispatch(loginFailure())
-      navigate('/')
+      dispatch(loginFailure());
+      navigate("/");
     }
+  };
+
+  const signInWithGoogle = async () => {
+    dispatch(loginStart())
+    signInWithPopup(auth, provider)
+    // .then((result) => console.log(result))
+      .then((result) => {
+        axios.post("http://localhost:5000/auth/google",{
+          name: result.user.displayName,
+          email: result.user.email,
+          img: result.user.photoURL
+        })
+        .then((res)=>{
+          dispatch(loginSuccess(res.data))
+          navigate('/')
+        })
+      })
+      .catch((err) => {
+        dispatch(loginFailure())
+        console.log(err)
+      });
   };
   return (
     <Container>
@@ -123,6 +145,8 @@ const SignIn = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <Button onClick={handleLogin}>Login</Button>
+        <Hr />
+        <Button onClick={signInWithGoogle}>Sign In With Google</Button>
         <Hr />
         <Title>Sign Up</Title>
         <SubTitle>to Continue WeTube</SubTitle>

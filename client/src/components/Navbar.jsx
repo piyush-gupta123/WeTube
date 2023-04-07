@@ -47,7 +47,7 @@ const Avatar = styled.img`
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background-color: #999;
+  // background-color: #999;
 `
 
 const Input = styled.input`
@@ -83,7 +83,7 @@ const Navbar = () => {
         </Search>
         {currentUser ? (
           <User>
-            <Avatar />
+            <Avatar src= {currentUser.img} />
             {currentUser.name}
           </User>
         ) : (

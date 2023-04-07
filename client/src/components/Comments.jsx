@@ -1,6 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import Comment from "./Comment";
+import {useSelector} from "react-redux"
+import { useState } from "react";
+import { useEffect } from "react";
+import axios from "axios";
 
 const Container = styled.div``;
 
