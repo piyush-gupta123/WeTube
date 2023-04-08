@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
-import { dislike, fetchSuccess, like } from "../redux/videoSlice";
+import { fetchSuccess } from "../redux/videoSlice";
 import { format } from "timeago.js";
 import axios from "axios";
 // import { subscription } from "../redux/userSlice";
@@ -133,53 +133,58 @@ const VideoFrame = styled.video`
 // `;
 
 const Video = () => {
-  const { currentUser } = useSelector((state) => state.user);
+  // const { currentUser } = useSelector((state) => state.user);
   const { currentVideo } = useSelector((state) => state.video);
-  const dispatch = useDispatch()
+  // console.log(currentVideo);
+  const dispatch = useDispatch();
 
-  const path = useLocation().pathname.split('/')[2]
-  const [video, setVideo] = useState({})
-  const [channel, setChannel] = useState({})
+  const path = useLocation().pathname.split("/")[2];
+  // console.log(path);
+  const [channel, setChannel] = useState({});
 
-  useEffect(()=>{
-    const fetchData = async()=>{
-        try{
-            const videoRes = await axios.get(`/videos/find/${path}`)
-            const channelRes = await axios.get(`/user/get/${videoRes.userID}`)
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const videoRes = await axios
+          .get(`http://localhost:5000/videos/find/${path}`)
+          // .then((res)=>dispatch(fetchSuccess(res.data)))
+          .catch((err) => console.log(err));
+        const channelRes = await axios
+          .get(`http://localhost:5000/user/get/${videoRes.data.userID}`)
+          .catch((err) => console.log(err));
 
-            setVideo(videoRes.data)
-            setChannel(channelRes.data)
-            fetchSuccess(videoRes.data)
-        }
-        catch(err){
-            console.log(err);
-        }
+        setChannel(channelRes.data);
+        console.log(videoRes.data)
+        dispatch(fetchSuccess(videoRes.data));
+      } catch (err) {
+        console.log(err);
+      }
     }
     fetchData()
-  },[path,dispatch])
+  }, [path, dispatch]);
 
-//   console.log(path);
+  //   console.log(path);
   return (
     <Container>
       <Content>
         <VideoWrapper>
-          <VideoFrame src={currentVideo.videoURL} controls />
+          {/* <VideoFrame src={currentVideo.videoURL} controls /> */}
         </VideoWrapper>
-        <Title>{currentVideo.title}</Title>
+        {/* <Title>{currentVideo.title}</Title> */}
         <Details>
           <Info>
-            {currentVideo.views} views. {format(currentVideo.createdAt)}
+            {/* {currentVideo.views} views. {format(currentVideo.createdAt)} */}
           </Info>
           <Buttons>
-            <Button >
+            <Button>
               {/* {currentVideo.likes?.includes(currentUser?._id) ? (
                 <ThumbUpIcon />
               ) : (
                 <ThumbUpOutlinedIcon />
               )}{" "} */}
-              {currentVideo.likes.length}
+              {/* {currentVideo.likes.length} */}
             </Button>
-            <Button >
+            <Button>
               {/* {currentVideo.dislikes?.includes(currentUser?._id) ? (
                 <ThumbDownIcon />
               ) : (
@@ -204,14 +209,14 @@ const Video = () => {
             <ChannelDetail>
               <ChannelName>{channel.name}</ChannelName>
               <ChannelCounter>{channel.subscribers} Subscribers</ChannelCounter>
-              <Description>{currentVideo.desc}</Description>
+              {/* <Description>{currentVideo.desc}</Description> */}
             </ChannelDetail>
           </ChannelInfo>
-          <Subscribe >
+          <Subscribe>
             {/* {currentUser.subscribedUsers.includes(channel._id)
               ? "SUBSCRIBED"
               : "SUBSCRIBE"} */}
-              SUBSCRIBE
+            SUBSCRIBE
           </Subscribe>
         </Channeldiv>
         <Hr />
